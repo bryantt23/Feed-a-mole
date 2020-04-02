@@ -1,3 +1,7 @@
+.some-page-wrapper {
+  width: 500px;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -25,4 +29,35 @@ img {
 }
 body {
   background-image: url(images/background.png);
+}
+/* 
+.worm-box {
+  width: 100%;
+  height: 30px;
+}
+
+#worm-container {
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+}
+
+#worm {
+  /* background-image: url(images/worm.png); 
+  visibility: visible;
+  max-width: 100%;
+  height: 15px;
+} */
+
+.worm {
+  width: 500px;
+  visibility: visible;
+}
+
+.worm-container {
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+}
+
+.worm-box {
+  width: 500px;
 }

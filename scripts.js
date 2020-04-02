@@ -2,7 +2,7 @@ let moles = document.querySelectorAll(".black-column");
 console.log(moles);
 
 let score = 0;
-const victoryNumber = 3;
+const victoryNumber = 10;
 
 for (const mole of moles) {
   mole.addEventListener("click", function(event) {
@@ -12,6 +12,17 @@ for (const mole of moles) {
       score++;
       console.log("is a mole");
       console.log("score", score);
+      let wormSize = parseInt(
+        document.querySelector(".worm-container").style.width
+      );
+      console.log("wormSize", wormSize);
+      if (wormSize === 5) {
+        wormSize += 5;
+      } else {
+        wormSize += 10;
+      }
+      document.querySelector(".worm-container").style.width = `${wormSize}%`;
+      console.log("wormSize", wormSize);
     } else {
       console.log("not a mole");
       console.log("score", score);
@@ -23,8 +34,6 @@ function hideMole(pos) {
   if (moles[pos].hasChildNodes()) {
     console.log(pos);
     moles[pos].firstChild.style.visibility = "hidden";
-    // debugger;
-    // setTimeout(() => showMole(pos), 3000);
   }
 }
 
@@ -40,12 +49,6 @@ const callfunction = () => {
   let pos = Math.floor(Math.random() * 11);
   showMole(pos);
 };
-
-// while (score < 10) {
-//   setInterval(() => {
-//     callfunction();
-//   }, 1000);
-// }
 
 let callCount = 1;
 let repeater = setInterval(function() {
