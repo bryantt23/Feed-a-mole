@@ -2,14 +2,16 @@ const kingMole = {
   fed: "images/king-mole-fed.png",
   hungry: "images/king-mole-hungry.png",
   leaving: "images/king-mole-leaving.png",
-  sad: "images/king-mole-sad.png"
+  sad: "images/king-mole-sad.png",
+  hungryImgSrc: "http://127.0.0.1:5500/images/king-mole-hungry.png"
 };
 
 const mole = {
   fed: "images/mole-fed.png",
   hungry: "images/mole-hungry.png",
   leaving: "images/mole-leaving.png",
-  sad: "images/mole-sad.png"
+  sad: "images/mole-sad.png",
+  hungryImgSrc: "http://127.0.0.1:5500/images/mole-hungry.png"
 };
 
 let moles = document.querySelectorAll(".black-column");
@@ -37,7 +39,6 @@ for (const mole of moles) {
       console.log("wormSize", wormSize);
 
       event.target.src = "images/mole-fed.png";
-      //   moles[pos].appendChild(img);
     } else if (
       event.target.src === "http://127.0.0.1:5500/images/king-mole-hungry.png"
     ) {
@@ -55,7 +56,6 @@ for (const mole of moles) {
       document.querySelector(".worm-container").style.width = `${wormSize}%`;
       console.log("wormSize", wormSize);
 
-      //   event.target.src = "images/king-mole-fed.png";
       event.target.src = kingMole.fed;
     }
   });
@@ -71,64 +71,27 @@ function moleLeaving(pos, imageSrc) {
   }, 1000);
 }
 
-function hideMole(pos) {
-  if (
-    moles[pos].firstElementChild.src ===
-    "http://127.0.0.1:5500/images/mole-hungry.png"
-  ) {
+function hideMole(pos, mole) {
+  if (moles[pos].firstElementChild.src === mole.hungryImgSrc) {
     moles[pos].innerHTML = "";
     let img = document.createElement("img");
-    // img.src = "images/mole-sad.png";
     img.src = mole.sad;
     moles[pos].appendChild(img);
 
     setTimeout(() => {
-      //   moleLeaving(pos, "images/mole-leaving.png");
       moleLeaving(pos, mole.leaving);
     }, 1000);
   } else {
-    //   moleLeaving(pos, "images/mole-leaving.png");
     moleLeaving(pos, mole.leaving);
   }
 }
 
-function hideKingMole(pos) {
-  if (
-    moles[pos].firstElementChild.src ===
-    "http://127.0.0.1:5500/images/king-mole-hungry.png"
-  ) {
-    moles[pos].innerHTML = "";
-    let img = document.createElement("img");
-    // img.src = "images/king-mole-sad.png";
-    img.src = kingMole.sad;
-    moles[pos].appendChild(img);
-    setTimeout(() => {
-      //   moleLeaving(pos, "images/king-mole-leaving.png");
-      moleLeaving(pos, kingMole.leaving);
-    }, 1000);
-  } else {
-    //   moleLeaving(pos, "images/king-mole-leaving.png");
-    moleLeaving(pos, kingMole.leaving);
-  }
-}
-
-function showKingMole(pos) {
+function showMole(pos, mole) {
   if (moles[pos].innerHTML === "") {
     let img = document.createElement("img");
-    // img.src = "images/king-mole-hungry.png";
-    img.src = kingMole.hungry;
-    moles[pos].appendChild(img);
-    setTimeout(() => hideKingMole(pos), 3000);
-  }
-}
-
-function showMole(pos) {
-  if (moles[pos].innerHTML === "") {
-    let img = document.createElement("img");
-    // img.src = "images/mole-hungry.png";
     img.src = mole.hungry;
     moles[pos].appendChild(img);
-    setTimeout(() => hideMole(pos), 3000);
+    setTimeout(() => hideMole(pos, mole), 3000);
   }
 }
 
@@ -136,9 +99,9 @@ const callfunction = () => {
   let pos = Math.floor(Math.random() * 11);
   if (pos < 5) {
     //random number that represents 10%
-    showKingMole(pos);
+    showMole(pos, kingMole);
   } else {
-    showMole(pos);
+    showMole(pos, mole);
   }
 };
 
