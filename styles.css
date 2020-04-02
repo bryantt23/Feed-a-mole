@@ -29,6 +29,7 @@ img {
 }
 body {
   background-image: url(images/background.png);
+  width: 500px;
 }
 /* 
 .worm-box {

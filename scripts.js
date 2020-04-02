@@ -6,7 +6,7 @@ const kingMole = {
   hungryImgSrc: "http://127.0.0.1:5500/images/king-mole-hungry.png"
 };
 
-const mole = {
+const regularMole = {
   fed: "images/mole-fed.png",
   hungry: "images/mole-hungry.png",
   leaving: "images/mole-leaving.png",
@@ -19,46 +19,34 @@ console.log(moles);
 
 let score = 0;
 const victoryNumber = 10;
-const urlHost = "http://127.0.0.1:5500/";
 
 for (const mole of moles) {
   mole.addEventListener("click", function(event) {
     console.log(event);
-    if (event.target.src === "http://127.0.0.1:5500/images/mole-hungry.png") {
+    if (event.target.src === regularMole.hungryImgSrc) {
       score++;
-      let wormSize = parseInt(
-        document.querySelector(".worm-container").style.width
-      );
-      console.log("wormSize", wormSize);
-      if (wormSize === 5) {
-        wormSize += 5;
-      } else {
-        wormSize += 10;
-      }
-      document.querySelector(".worm-container").style.width = `${wormSize}%`;
-      console.log("wormSize", wormSize);
-
-      event.target.src = "images/mole-fed.png";
-    } else if (
-      event.target.src === "http://127.0.0.1:5500/images/king-mole-hungry.png"
-    ) {
+      increaseWormSize(5, 10);
+      event.target.src = regularMole.fed;
+    } else if (event.target.src === kingMole.hungryImgSrc) {
       score += 2;
-
-      let wormSize = parseInt(
-        document.querySelector(".worm-container").style.width
-      );
-      console.log("wormSize", wormSize);
-      if (wormSize === 5) {
-        wormSize += 15;
-      } else {
-        wormSize += 20;
-      }
-      document.querySelector(".worm-container").style.width = `${wormSize}%`;
-      console.log("wormSize", wormSize);
-
+      increaseWormSize(15, 20);
       event.target.src = kingMole.fed;
     }
   });
+}
+
+function increaseWormSize(minAmount, regularAmount) {
+  let wormSize = parseInt(
+    document.querySelector(".worm-container").style.width
+  );
+  console.log("wormSize", wormSize);
+  if (wormSize === 5) {
+    wormSize += minAmount;
+  } else {
+    wormSize += regularAmount;
+  }
+  document.querySelector(".worm-container").style.width = `${wormSize}%`;
+  console.log("wormSize", wormSize);
 }
 
 function moleLeaving(pos, imageSrc) {
@@ -77,13 +65,10 @@ function hideMole(pos, mole) {
     let img = document.createElement("img");
     img.src = mole.sad;
     moles[pos].appendChild(img);
-
-    setTimeout(() => {
-      moleLeaving(pos, mole.leaving);
-    }, 1000);
-  } else {
-    moleLeaving(pos, mole.leaving);
   }
+  setTimeout(() => {
+    moleLeaving(pos, mole.leaving);
+  }, 1000);
 }
 
 function showMole(pos, mole) {
@@ -101,7 +86,7 @@ const callfunction = () => {
     //random number that represents 10%
     showMole(pos, kingMole);
   } else {
-    showMole(pos, mole);
+    showMole(pos, regularMole);
   }
 };
 
