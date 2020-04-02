@@ -45,20 +45,10 @@ for (const mole of moles) {
   });
 }
 
-function kingMoleLeaving(pos) {
+function moleLeaving(pos, imageSrc) {
   moles[pos].innerHTML = "";
   let img = document.createElement("img");
-  img.src = "images/king-mole-leaving.png";
-  moles[pos].appendChild(img);
-  setTimeout(() => {
-    moles[pos].innerHTML = "";
-  }, 1000);
-}
-
-function moleLeaving(pos) {
-  moles[pos].innerHTML = "";
-  let img = document.createElement("img");
-  img.src = "images/mole-leaving.png";
+  img.src = imageSrc;
   moles[pos].appendChild(img);
   setTimeout(() => {
     moles[pos].innerHTML = "";
@@ -76,10 +66,10 @@ function hideMole(pos) {
     moles[pos].appendChild(img);
 
     setTimeout(() => {
-      moleLeaving(pos);
+      moleLeaving(pos, "images/mole-leaving.png");
     }, 1000);
   } else {
-    moleLeaving(pos);
+    moleLeaving(pos, "images/mole-leaving.png");
   }
 }
 
@@ -93,17 +83,11 @@ function hideKingMole(pos) {
     img.src = "images/king-mole-sad.png";
     moles[pos].appendChild(img);
     setTimeout(() => {
-      kingMoleLeaving(pos);
+      moleLeaving(pos, "images/king-mole-leaving.png");
     }, 1000);
   } else {
-    kingMoleLeaving(pos);
+    moleLeaving(pos, "images/king-mole-leaving.png");
   }
-  //   moles[pos].innerHTML = "";
-  //   let img = document.createElement("img");
-  //   img.src = "images/king-mole-leaving.png";
-  //   moles[pos].appendChild(img);
-
-  //   setTimeout(() => (moles[pos].innerHTML = ""), 1000);
 }
 
 function showKingMole(pos) {
@@ -111,7 +95,6 @@ function showKingMole(pos) {
     let img = document.createElement("img");
     img.src = "images/king-mole-hungry.png";
     moles[pos].appendChild(img);
-    // debugger;
     setTimeout(() => hideKingMole(pos), 3000);
   }
 }
@@ -123,12 +106,6 @@ function showMole(pos) {
     moles[pos].appendChild(img);
     setTimeout(() => hideMole(pos), 3000);
   }
-
-  //   if (moles[pos].hasChildNodes()) {
-  //     console.log(pos + " show");
-  //     moles[pos].firstChild.style.visibility = "visible";
-  //   setTimeout(() => hideMole(pos), 3000);
-  //   }
 }
 
 const callfunction = () => {
