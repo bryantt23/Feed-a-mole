@@ -6,12 +6,9 @@ const victoryNumber = 10;
 
 for (const mole of moles) {
   mole.addEventListener("click", function(event) {
-    //...
     console.log(event);
     if (event.target.src === "http://127.0.0.1:5500/images/mole-hungry.png") {
       score++;
-      console.log("is a mole");
-      console.log("score", score);
       let wormSize = parseInt(
         document.querySelector(".worm-container").style.width
       );
@@ -23,12 +20,14 @@ for (const mole of moles) {
       }
       document.querySelector(".worm-container").style.width = `${wormSize}%`;
       console.log("wormSize", wormSize);
+
+      event.target.src = "images/mole-fed.png";
+      //   moles[pos].appendChild(img);
     } else if (
       event.target.src === "http://127.0.0.1:5500/images/king-mole-hungry.png"
     ) {
       score += 2;
-      console.log("is a mole");
-      console.log("score", score);
+
       let wormSize = parseInt(
         document.querySelector(".worm-container").style.width
       );
@@ -40,31 +39,86 @@ for (const mole of moles) {
       }
       document.querySelector(".worm-container").style.width = `${wormSize}%`;
       console.log("wormSize", wormSize);
+
+      event.target.src = "images/king-mole-fed.png";
     }
   });
 }
 
-function hideMole(pos) {
+function kingMoleLeaving(pos) {
   moles[pos].innerHTML = "";
+  let img = document.createElement("img");
+  img.src = "images/king-mole-leaving.png";
+  moles[pos].appendChild(img);
+  setTimeout(() => {
+    moles[pos].innerHTML = "";
+  }, 1000);
+}
 
-  //   if (moles[pos].hasChildNodes()) {
-  //     console.log(pos);
-  //     moles[pos].firstChild.style.visibility = "hidden";
-  //   }
+function moleLeaving(pos) {
+  moles[pos].innerHTML = "";
+  let img = document.createElement("img");
+  img.src = "images/mole-leaving.png";
+  moles[pos].appendChild(img);
+  setTimeout(() => {
+    moles[pos].innerHTML = "";
+  }, 1000);
+}
+
+function hideMole(pos) {
+  if (
+    moles[pos].firstElementChild.src ===
+    "http://127.0.0.1:5500/images/mole-hungry.png"
+  ) {
+    moles[pos].innerHTML = "";
+    let img = document.createElement("img");
+    img.src = "images/mole-sad.png";
+    moles[pos].appendChild(img);
+
+    setTimeout(() => {
+      moleLeaving(pos);
+    }, 1000);
+  } else {
+    moleLeaving(pos);
+  }
+}
+
+function hideKingMole(pos) {
+  if (
+    moles[pos].firstElementChild.src ===
+    "http://127.0.0.1:5500/images/king-mole-hungry.png"
+  ) {
+    moles[pos].innerHTML = "";
+    let img = document.createElement("img");
+    img.src = "images/king-mole-sad.png";
+    moles[pos].appendChild(img);
+    setTimeout(() => {
+      kingMoleLeaving(pos);
+    }, 1000);
+  } else {
+    kingMoleLeaving(pos);
+  }
+  //   moles[pos].innerHTML = "";
+  //   let img = document.createElement("img");
+  //   img.src = "images/king-mole-leaving.png";
+  //   moles[pos].appendChild(img);
+
+  //   setTimeout(() => (moles[pos].innerHTML = ""), 1000);
 }
 
 function showKingMole(pos) {
   if (moles[pos].innerHTML === "") {
-    var img = document.createElement("img");
+    let img = document.createElement("img");
     img.src = "images/king-mole-hungry.png";
     moles[pos].appendChild(img);
-    setTimeout(() => hideMole(pos), 3000);
+    // debugger;
+    setTimeout(() => hideKingMole(pos), 3000);
   }
 }
 
 function showMole(pos) {
   if (moles[pos].innerHTML === "") {
-    var img = document.createElement("img");
+    let img = document.createElement("img");
     img.src = "images/mole-hungry.png";
     moles[pos].appendChild(img);
     setTimeout(() => hideMole(pos), 3000);
@@ -79,7 +133,7 @@ function showMole(pos) {
 
 const callfunction = () => {
   let pos = Math.floor(Math.random() * 11);
-  if (pos === 5) {
+  if (pos < 5) {
     //random number that represents 10%
     showKingMole(pos);
   } else {
