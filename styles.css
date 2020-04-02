@@ -23,5 +23,5 @@ img {
   max-height: 80%;
 }
 body {
-  background-color: green;
+  background-image: url(images/background.png);
 }
