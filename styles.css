@@ -21,6 +21,7 @@
 
 img {
   max-height: 80%;
+  visibility: hidden;
 }
 body {
   background-image: url(images/background.png);
